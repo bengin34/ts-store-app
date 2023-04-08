@@ -1,20 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { Product } from "../models/models";
 
 
-export interface Product {
-    id:                 number;
-    title:              string;
-    description:        string;
-    price:              number;
-    discountPercentage: number;
-    rating:             number;
-    stock:              number;
-    brand:              string;
-    category:           string;
-    thumbnail:          string;
-    images:             string[];
-}
+
 
 // Define a type for the slice state
 interface ProductsState {
@@ -37,31 +26,30 @@ export const productsSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    fetchStart(state){
-        state.loading= true;
-        state.error = false;
+    fetchStart(state) {
+      state.loading = true;
+      state.error = false;
     },
-    getSuccessProduct ( state,action: PayloadAction<Product[]> ){
-        state.loading= true;
-        state.error = false;
-        state.productsList = action.payload;
+    getSuccessProduct(state, action: PayloadAction<Product[]>) {
+      state.loading = false;
+      state.error = false;
+      state.productsList = action.payload;
     },
-    addFavorites ( state,action: PayloadAction<Product> ){
-        state.favorites = [...state.favorites, action.payload]
+    addFavorites(state, action: PayloadAction<Product>) {
+      state.favorites = [...state.favorites, action.payload];
     },
-    removeFavorites ( state,action: PayloadAction<Product[]>){
-        state.favorites = action.payload 
+    removeFavorites(state, action: PayloadAction<Product[]>) {
+      state.favorites = action.payload;
     },
-    fetchFail(state) {
-        state.loading = false;
-        state.error = true
-    }
     // Use the PayloadAction type to declare the contents of `action.payload`
- 
+    fetchFail(state) {
+      state.loading = false;
+      state.error = true;
+    },
   },
 });
 
-export const { fetchStart,getSuccessProduct ,addFavorites,removeFavorites,fetchFail} = productsSlice.actions;
+export const { fetchFail,fetchStart,getSuccessProduct,addFavorites,removeFavorites } = productsSlice.actions;
 
 
-export const productsReducer = productsSlice.reducer;
+export const productsReducer =  productsSlice.reducer;
